@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { getAllPokemon, getPokemon } from "./utils/pokemon";
+import { Card } from "./components/Card/Card";
 
 function App() {
   const initialUrl = "https://pokeapi.co/api/v2/pokemon/";
@@ -33,7 +34,15 @@ function App() {
 
   return (
     <div className="App">
-      {loading ? <h1>로딩중 ... </h1> : <h1>포켓몬 데이터 습득 완료!</h1>}
+      {loading ? (
+        <h1>로딩중 ... </h1>
+      ) : (
+        <div className="pokemonCardContainer">
+          {pokemonData.map((pokemon, i) => {
+            return <Card key={i} pokemon={pokemon} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }
