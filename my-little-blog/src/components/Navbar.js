@@ -8,7 +8,7 @@ import {
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = () => {
+const Navbar = ({ isAuth }) => {
   return (
     <nav>
       <Link to="/">
@@ -17,9 +17,15 @@ const Navbar = () => {
       <Link to="/createpost">
         <FontAwesomeIcon icon={faFileAlt} /> 투고
       </Link>
-      <Link to="/login">
-        <FontAwesomeIcon icon={faArrowRightToBracket} /> 로그인
-      </Link>
+      {!isAuth ? (
+        <Link to="/login">
+          <FontAwesomeIcon icon={faArrowRightToBracket} /> 로그인
+        </Link>
+      ) : (
+        <Link to="/logout">
+          <FontAwesomeIcon icon={faArrowRightToBracket} /> 로그아웃
+        </Link>
+      )}
     </nav>
   );
 };
