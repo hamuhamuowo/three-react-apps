@@ -9,9 +9,9 @@ export const Card = ({ pokemon }) => {
       </div>
       <h3 className="cardName">{pokemon.name}</h3>
       <div className="cardTypes">
-        {pokemon.types.map((type, i) => {
+        {pokemon.types.map((type) => {
           return (
-            <div key={i}>
+            <div key={type.type.name}>
               <span className="typeName">{type.type.name}</span>
             </div>
           );

@@ -9,6 +9,8 @@ function App() {
   const initialUrl = "https://pokeapi.co/api/v2/pokemon/";
   const [loading, setLoading] = useState(true);
   const [pokemonData, setPokemonData] = useState([]);
+  const [nextURL, setNextURL] = useState("");
+  const [prevURL, setPrevURL] = useState("");
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -16,6 +18,8 @@ function App() {
       let res = await getAllPokemon(initialUrl);
       // 각 포켓몬 상세 데이터 습득
       loadPokemon(res.results); // 정보 url
+      setNextURL(res.next); // 다음 포켓몬 리스트 정보가 담긴 url
+      setPrevURL(res.previous); // 가장 처음은 null
       setLoading(false); // 로딩 완료
     };
     fetchPokemonData();
@@ -30,7 +34,27 @@ function App() {
       })
     );
     setPokemonData(_pokemonData);
-    console.log(pokemonData);
+    // console.log(pokemonData);
+  };
+
+  const handleNextPage = async () => {
+    setLoading(true);
+    let data = await getAllPokemon(nextURL);
+    // console.log(data);
+    await loadPokemon(data.results);
+    setNextURL(data.next);
+    setPrevURL(data.previous);
+    setLoading(false);
+  };
+
+  const handlePrevPage = async () => {
+    if (!prevURL) return;
+    setLoading(true);
+    let data = await getAllPokemon(prevURL);
+    await loadPokemon(data.results);
+    setNextURL(data.next);
+    setPrevURL(data.previous);
+    setLoading(false);
   };
 
   return (
@@ -46,6 +70,10 @@ function App() {
             })}
           </div>
         )}
+        <div className="btn">
+          <button onClick={handlePrevPage}>이전</button>
+          <button onClick={handleNextPage}>다음</button>
+        </div>
       </div>
     </>
   );
