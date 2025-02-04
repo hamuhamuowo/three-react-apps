@@ -22,7 +22,7 @@ export const Card = ({ pokemon }) => {
           <p className="title">무게 : {pokemon.weight}</p>
         </div>
         <div className="cardData">
-          <p className="title">키 : {pokemon.height}</p>
+          <p className="title">키 : {pokemon.height}cm</p>
         </div>
         <div className="cardData">
           <p className="title">특성 : {pokemon.abilities[0].ability.name}</p>
