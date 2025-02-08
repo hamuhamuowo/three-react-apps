@@ -1,24 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Home = () => {
+  const [postList, setPostList] = useState([]);
+
+  // get Data (firebase)
+  useEffect(() => {
+    const getPosts = async () => {
+      const data = await getDocs(collection(db, "posts"));
+      console.log(data);
+      console.log(data.docs);
+      console.log(data.docs.map((doc) => ({ doc })));
+      console.log(data.docs.map((doc) => ({ ...doc.data() }))); // data함수를 사용하면 데이터 가져오기 용이!
+      console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))); // object에 id 키와 값을 추가
+
+      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getPosts();
+  }, []);
+
   return (
     <div className="homePage">
-      <div className="postContents">
-        <div className="postHeader">
-          <h1>투고 제목</h1>
-        </div>
-        <div className="postTextContainer">
-          투고 내용 Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Eligendi dolorum tempore quam odit ratione, veniam repellendus
-          molestias molestiae cumque illum quidem reprehenderit, sit iure?
-          Libero est sequi amet! Aspernatur, soluta.
-        </div>
-        <div className="nameAndDeleteButton">
-          <h3>@username</h3>
-          <button>삭제</button>
-        </div>
-      </div>
+      {postList.map((post) => {
+        return (
+          <div className="postContents" key={post.id}>
+            <div className="postHeader">
+              <h1>{post.title}</h1>
+            </div>
+            <div className="postTextContainer">{post.postText}</div>
+            <div className="nameAndDeleteButton">
+              <h3>@{post.author && post.author.username}</h3>
+              <button>삭제</button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
