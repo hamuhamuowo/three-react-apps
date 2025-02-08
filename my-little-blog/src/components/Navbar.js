@@ -14,17 +14,20 @@ const Navbar = ({ isAuth }) => {
       <Link to="/">
         <FontAwesomeIcon icon={faHome} /> 홈
       </Link>
-      <Link to="/createpost">
-        <FontAwesomeIcon icon={faFileAlt} /> 투고
-      </Link>
+
       {!isAuth ? (
         <Link to="/login">
           <FontAwesomeIcon icon={faArrowRightToBracket} /> 로그인
         </Link>
       ) : (
-        <Link to="/logout">
-          <FontAwesomeIcon icon={faArrowRightToBracket} /> 로그아웃
-        </Link>
+        <>
+          <Link to="/createpost">
+            <FontAwesomeIcon icon={faFileAlt} /> 투고
+          </Link>
+          <Link to="/logout">
+            <FontAwesomeIcon icon={faArrowRightToBracket} /> 로그아웃
+          </Link>
+        </>
       )}
     </nav>
   );
