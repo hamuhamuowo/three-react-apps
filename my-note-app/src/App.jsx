@@ -18,9 +18,18 @@ function App() {
     setNotes([...notes, newNote]); // 전 데이터와 배열 형식으로 추가
   };
 
+  const onDeleteNote = (id) => {
+    const filterNotes = notes.filter((note) => note.id !== id);
+    setNotes(filterNotes);
+  };
+
   return (
     <div className="App">
-      <Sidebar onAddNote={onAddNote} notes={notes} />
+      <Sidebar
+        onAddNote={onAddNote}
+        notes={notes}
+        onDeleteNote={onDeleteNote}
+      />
       <Main />
     </div>
   );
