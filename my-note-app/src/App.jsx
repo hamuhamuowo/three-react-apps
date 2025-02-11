@@ -15,6 +15,11 @@ function App() {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
+  // 맨 위 노트를 선택한 상태로 설정
+  useEffect(() => {
+    setActiveNote(notes[0].id);
+  }, []);
+
   const onAddNote = () => {
     // uuid 랜덤 아이디 생성
     const newNote = {
